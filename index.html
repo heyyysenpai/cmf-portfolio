@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carla Mae Fernandez</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #f3f4ee;
+    --surface: #fbfbf7;
+    --surface-raised: #ffffff;
+    --ink: #1b2624;
+    --ink-soft: #4d5850;
+    --ink-faint: #8a9089;
+    --line: #dadecf;
+    --teal: #1f6f72;
+    --teal-soft: #e2eeed;
+    --coral: #c1573b;
+    --coral-soft: #f5e6e0;
+    --shadow: 0 1px 2px rgba(27,38,36,0.04), 0 8px 24px -12px rgba(27,38,36,0.14);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121a18;
+      --surface: #182420;
+      --surface-raised: #1d2b26;
+      --ink: #eef1ea;
+      --ink-soft: #b3bcb2;
+      --ink-faint: #798079;
+      --line: #2c3a34;
+      --teal: #5fc4c2;
+      --teal-soft: #1e3532;
+      --coral: #e2916f;
+      --coral-soft: #3a2822;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121a18;
+    --surface: #182420;
+    --surface-raised: #1d2b26;
+    --ink: #eef1ea;
+    --ink-soft: #b3bcb2;
+    --ink-faint: #798079;
+    --line: #2c3a34;
+    --teal: #5fc4c2;
+    --teal-soft: #1e3532;
+    --coral: #e2916f;
+    --coral-soft: #3a2822;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.55);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 2px; }
+
+  /* ---------- Theme wave transition ---------- */
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+  ::view-transition-old(root) { z-index: 1; }
+  ::view-transition-new(root) { z-index: 2; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding-inline: 0;
+  }
+
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  h1, h2, h3 { font-family: 'Spectral', Georgia, serif; text-wrap: balance; margin: 0; }
+  ::selection { background: var(--teal); color: var(--surface); }
+
+  .wrap { max-width: 1080px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 56px); }
+  .prose { max-width: 700px; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  /* ---------- Nav ---------- */
+  nav.topbar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.topbar .inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-block: 14px;
+  }
+  .brandmark {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .brandmark span { color: var(--teal); }
+  .navlinks {
+    display: flex;
+    justify-content: flex-end;
+    gap: clamp(10px, 2vw, 24px);
+    overflow-x: auto;
+    scrollbar-width: none;
+    font-size: 0.82rem;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .navlinks::-webkit-scrollbar { display: none; }
+  .navlinks a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    padding-block: 4px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .navlinks a:hover, .navlinks a:focus-visible { color: var(--teal); border-color: var(--teal); }
+
+  .theme-toggle {
+    flex: 0 0 auto;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+  .theme-toggle:hover { border-color: var(--teal); transform: translateY(-1px); }
+  .theme-toggle svg {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    stroke: var(--ink-soft);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: opacity 0.3s ease, transform 0.4s ease;
+  }
+  .theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+  .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+  :root[data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+  :root[data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+    :root:not([data-theme="light"]) .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding-block: clamp(40px, 7vw, 76px) clamp(24px, 5vw, 40px);
+  }
+  .hero .inner {
+    display: flex;
+    gap: clamp(28px, 5vw, 64px);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .hero-text { flex: 1 1 420px; min-width: min(280px, 100%); }
+  .hero-text .eyebrow { margin-bottom: 14px; display: block; }
+  .hero h1 {
+    font-size: clamp(2.3rem, 5.4vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--teal);
+  }
+  .hero .role {
+    margin-top: 14px;
+    font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+    color: var(--ink-soft);
+    max-width: 46ch;
+  }
+  .hero-photo-wrap {
+    flex: 0 0 auto;
+    width: clamp(140px, 24vw, 260px);
+    max-width: 100%;
+  }
+  .hero-photo {
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 62% 18%;
+  }
+  .hero-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+  .photo-tag {
+    margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    text-align: center;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 13px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    font-size: 0.82rem;
+    text-decoration: none;
+    color: var(--ink-soft);
+    background: var(--surface);
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+  .chip:hover, .chip:focus-visible { border-color: var(--teal); color: var(--teal); transform: translateY(-1px); }
+  .chip svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+
+  /* ---------- Scale legend divider (signature motif) ---------- */
+  .scale-legend {
+    padding-block: clamp(28px, 5vw, 44px);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .scale-legend .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .scale-legend .caption {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+  .scale-bar {
+    height: 10px;
+    border-radius: 3px;
+    background: linear-gradient(90deg,
+      #1f6f72 0%, #62a6a3 24%, #cfd8c9 48%, #e3c1a8 52%, #d68a63 74%, #c1573b 100%);
+  }
+  .scale-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+  }
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- Sections ---------- */
+  section { padding-block: clamp(44px, 7vw, 76px); }
+  .section-head { margin-bottom: clamp(24px, 4vw, 36px); }
+  .section-head h2 { font-size: clamp(1.5rem, 2.6vw, 1.9rem); font-weight: 600; }
+  .section-head .eyebrow { margin-bottom: 8px; }
+  .lede { color: var(--ink-soft); font-size: 1.02rem; line-height: 1.75; }
+  .lede p + p { margin-top: 1.1em; }
+
+  hr.rule { border: none; border-top: 1px solid var(--line); margin: 0; }
+
+  /* ---------- Skills ---------- */
+  .skill-group { padding-block: 20px; border-top: 1px solid var(--line); }
+  .skill-group:first-of-type { border-top: none; }
+  .skill-group-head {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .tag-cluster { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 0.82rem;
+    padding: 5px 11px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--ink-soft);
+    transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+  }
+  .tag:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
+
+  /* ---------- Experience timeline ---------- */
+  .timeline { position: relative; }
+  .tl-item {
+    position: relative;
+    padding-left: 30px;
+    padding-bottom: clamp(28px, 4vw, 40px);
+    border-left: 1px solid var(--line);
+  }
+  .tl-item:last-child { padding-bottom: 4px; }
+  .tl-dot {
+    position: absolute;
+    left: -5px;
+    top: 4px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  .tl-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 16px;
+    align-items: baseline;
+  }
+  .tl-role { font-size: 1.05rem; font-weight: 600; font-family: 'Spectral', serif; }
+  .tl-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  .tl-org { color: var(--teal); font-size: 0.88rem; margin-top: 3px; font-weight: 500; }
+  .tl-place { color: var(--ink-faint); font-size: 0.82rem; margin-top: 1px; }
+  .tl-list { margin: 12px 0 0; padding-left: 18px; color: var(--ink-soft); font-size: 0.93rem; line-height: 1.65; }
+  .tl-list li + li { margin-top: 6px; }
+
+  /* ---------- Education / Honors ---------- */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(28px, 5vw, 56px);
+  }
+  @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+  .edu-item + .edu-item { margin-top: 20px; }
+  .edu-degree { font-family: 'Spectral', serif; font-weight: 600; font-size: 1.02rem; }
+  .edu-school { color: var(--teal); font-size: 0.9rem; margin-top: 3px; }
+  .edu-meta { color: var(--ink-faint); font-size: 0.82rem; margin-top: 2px; font-family: 'IBM Plex Mono', monospace; }
+
+  .honor-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .honor-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .honor-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .honor-mark { color: var(--coral); font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; margin-top: 2px; }
+  .honor-title { color: var(--ink); font-weight: 500; }
+
+  /* ---------- Publications ---------- */
+  .pub-list { display: flex; flex-direction: column; gap: 22px; }
+  .pub-item { padding-left: 2.4em; text-indent: -2.4em; font-size: 0.95rem; line-height: 1.7; color: var(--ink-soft); overflow-wrap: break-word; word-break: break-word; }
+  .pub-item .pub-num { font-family: 'IBM Plex Mono', monospace; color: var(--coral); font-size: 0.85rem; margin-right: 0.6em; }
+  .pub-item .pub-title { font-style: italic; color: var(--ink); }
+  .pub-item a { color: var(--teal); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; transition: text-decoration-color 0.2s ease; }
+  .pub-item a:hover { text-decoration-color: var(--teal); }
+
+  /* ---------- Footer ---------- */
+  footer {
+    padding-block: clamp(44px, 7vw, 72px);
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+  }
+  footer h2 {
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    font-weight: 600;
+    max-width: 16ch;
+  }
+  footer h2 em { color: var(--teal); font-style: italic; font-weight: 500; }
+  .footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-top: 30px;
+  }
+  .footer-contacts { display: flex; flex-direction: column; gap: 9px; font-size: 0.92rem; }
+  .footer-contacts a { text-decoration: none; color: var(--ink-soft); transition: color 0.2s ease; }
+  .footer-contacts a:hover { color: var(--teal); }
+  .footer-meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); text-align: right; }
+
+  /* ---------- Motion ---------- */
+  .hero-text > * , .hero-photo-wrap { animation: rise 0.6s ease both; }
+  .hero-text .eyebrow { animation-delay: 0s; }
+  .hero-text h1 { animation-delay: 0.05s; }
+  .hero-text .role { animation-delay: 0.1s; }
+  .hero-text .contact-row { animation-delay: 0.15s; }
+  .hero-photo-wrap { animation-delay: 0.1s; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .tl-item, .pub-item, .edu-item { transition: transform 0.2s ease; }
+</style>
+</head>
+<body>
+
+
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem('cmf-theme');
+      if (stored === 'light' || stored === 'dark') { document.documentElement.dataset.theme = stored; }
+    } catch (e) {}
+  })();
+</script>
+
+<nav class="topbar">
+  <div class="inner wrap">
+    <a class="brandmark" href="#top">C.M.<span>FERNANDEZ</span></a>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#publications">Publications</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap inner">
+    <div class="hero-text">
+      <span class="eyebrow">Bioinformatics &middot; Molecular Research</span>
+      <h1>Carla Mae<br><em>Fernandez</em></h1>
+      <p class="role">Biotechnology researcher turning five years of bench work &mdash; PCR, ELISA, biobanking &mdash; into computational biology: differential gene expression, biomarker discovery, and statistical modeling in R.</p>
+      <div class="contact-row">
+        <a class="chip" href="mailto:crlmfrnndz@gmail.com">
+          <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
+          crlmfrnndz@gmail.com
+        </a>
+        <a class="chip" href="tel:+639266230694">
+          <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 12l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2z"/></svg>
+          +63 926 623 0694
+        </a>
+        <a class="chip" href="https://linkedin.com/in/crlmfrnndz1999" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 13v4"/></svg>
+          linkedin.com/in/crlmfrnndz1999
+        </a>
+        <span class="chip" style="cursor:default;">
+          <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.3"/></svg>
+          Pasig, Metro Manila, PH
+        </span>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <div class="hero-photo">
+        <img src="assets/cmf.jpg" alt="Portrait of Carla Mae Fernandez" />
+      </div>
+      <div class="photo-tag">SAMPLE ID: CMF&ndash;1999</div>
+    </div>
+  </div>
+</header>
+
+<div class="scale-legend">
+  <div class="wrap inner">
+    <span class="caption">log&#8322; fold-change &mdash; the color scale she reads for a living</span>
+    <div class="scale-bar"></div>
+    <div class="scale-ticks"><span>&minus;2</span><span>&minus;1</span><span>0</span><span>+1</span><span>+2</span></div>
+    <div class="scale-labels"><span>DOWNREGULATED</span><span></span><span></span><span></span><span>UPREGULATED</span></div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">About</span>
+      <h2>From the bench to the console</h2>
+    </div>
+    <div class="lede prose">
+      <p>Biology and biotechnology research professional with 5+ years of laboratory and molecular diagnostics experience, now pairing that bench background with hands-on training in R/Bioconductor-based transcriptomic data analysis. Currently completing an MS in Health Informatics (Bioinformatics Track) at the University of the Philippines Manila as a DOST-ASTHRDP scholar.</p>
+      <p>Brings wet-lab rigor &mdash; biobanking, PCR, ELISA, microbial identification &mdash; together with growing computational skills in differential gene expression analysis, biomarker discovery, and statistical modeling in R and Python, plus practiced scientific writing across research proposals, manuscripts, and technical documentation.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills" style="background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Technical Skills</span>
+      <h2>Instruments &amp; methods</h2>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-head">Bioinformatics &amp; Data Analysis</div>
+      <div class="tag-cluster">
+        <span class="tag">R</span><span class="tag">R/Bioconductor</span><span class="tag">Python</span>
+        <span class="tag">Transcriptomic data analysis</span><span class="tag">Microarray preprocessing</span>
+        <span class="tag">Normalization &amp; QA</span><span class="tag">Differential gene expression</span>
+        <span class="tag">Biomarker discovery</span><span class="tag">Machine learning (regression, classification)</span>
+        <span class="tag">Statistical analysis</span><span class="tag">Data visualization</span>
+        <span class="tag">STATA</span><span class="tag">GraphPad Prism</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-head">Bioinformatics Databases &amp; Tools</div>
+      <div class="tag-cluster">
+        <span class="tag">GEO</span><span class="tag">Ensembl Genome Browser</span><span class="tag">Bioconductor packages</span>
+        <span class="tag">GSEA</span><span class="tag">DAVID</span><span class="tag">PLINK</span>
+        <span class="tag">Gephi</span><span class="tag">Cytoscape</span><span class="tag">Biological network analysis</span>
+        <span class="tag">Linux command-line</span><span class="tag">HPC</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-head">Laboratory &amp; Molecular Biology</div>
+      <div class="tag-cluster">
+        <span class="tag">DNA/RNA purification</span><span class="tag">PCR</span><span class="tag">ELISA</span>
+        <span class="tag">Microbial culturing &amp; staining</span><span class="tag">Microscopy</span>
+        <span class="tag">Strain identification</span><span class="tag">Culture preservation</span>
+        <span class="tag">Biobanking</span><span class="tag">Biospecimen accessioning</span><span class="tag">Inventory management</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-head">Other</div>
+      <div class="tag-cluster">
+        <span class="tag">Microsoft Office Suite</span><span class="tag">Scientific writing</span>
+        <span class="tag">Presentation design</span><span class="tag">Research proposals &amp; manuscripts</span>
+        <span class="tag">Technical documentation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Professional Experience</span>
+      <h2>Fieldwork, benchwork, and the record between</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <span class="tl-dot"></span>
+        <div class="tl-head">
+          <span class="tl-role">International Exchange Participant &mdash; IntMedEdu HAI NOW Exchange Programme</span>
+          <span class="tl-date">MAR 2026</span>
+        </div>
+        <div class="tl-org">Hainan International Medical Center, Shanghai Jiao Tong University School of Medicine</div>
+        <div class="tl-place">Hainan, China</div>
+        <ul class="tl-list">
+          <li>Selected for a competitive international medical education and research exchange program, engaging with faculty and researchers from multiple institutions by completing structured academic sessions on artificial intelligence, digital health, biomedical research, and precision medicine.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-dot"></span>
+        <div class="tl-head">
+          <span class="tl-role">Resource Speaker &mdash; &ldquo;Data in Motion: Exploring Analysis and Visualization with R&rdquo;</span>
+          <span class="tl-date">NOV 2025</span>
+        </div>
+        <div class="tl-org">Workshop, Mindanao State University &ndash; General Santos City</div>
+        <div class="tl-place">Delivered via Zoom</div>
+        <ul class="tl-list">
+          <li>Delivered a hands-on R workshop to remote participants by designing and leading live sessions on data manipulation, exploratory data analysis, and data visualization.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-dot"></span>
+        <div class="tl-head">
+          <span class="tl-role">University Research Associate II / Team Captain</span>
+          <span class="tl-date">2022 &ndash; 2023</span>
+        </div>
+        <div class="tl-org">Molecular Research and Diagnostic Unit, Institute of Human Genetics, National Institutes of Health</div>
+        <div class="tl-place">University of the Philippines Manila</div>
+        <ul class="tl-list">
+          <li>Led the Research Arm of the Molecular Research and Diagnostic Unit as Team Captain, coordinating laboratory processing and data analysis by organizing daily research operations and team workflows.</li>
+          <li>Managed end-to-end biobanking operations, keeping the collection fully traceable, by standardizing accessioning, inventory management, storage, and retrieval procedures.</li>
+          <li>Authored and contributed to research proposals and manuscripts, translating experimental data and findings into funding- and publication-ready documents.</li>
+          <li>Built and maintained the unit&rsquo;s system for recording, safekeeping, and archiving documentation across all significant laboratory activities.</li>
+          <li>Concurrently facilitated the Philippine Science High School Science Immersion Program (Jul&ndash;Aug 2023), guiding senior high school students through laboratory workflows and biomedical research exposure.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-dot"></span>
+        <div class="tl-head">
+          <span class="tl-role">University Research Associate I</span>
+          <span class="tl-date">2019 &ndash; 2021</span>
+        </div>
+        <div class="tl-org">National Institute of Molecular Biology and Biotechnology (BIOTECH)</div>
+        <div class="tl-place">University of the Philippines Los Ba&ntilde;os</div>
+        <ul class="tl-list">
+          <li>Isolated, purified, preserved, and identified bacterial and yeast strains from soil and aquatic samples, contributing directly to the Philippine National Collection of Microorganisms (PNCM).</li>
+          <li>Performed molecular and phenotypic identification across bacterial and yeast isolates, combining culture-based and molecular diagnostic techniques for accurate taxonomic classification.</li>
+          <li>Supported culture collection operations and service provision at PNCM, BIOTECH, maintaining preserved microbial stocks and reference documentation.</li>
+          <li>Contributed to scientific reports and technical documentation by compiling experimental data and methodology summaries for internal and collaborative research use.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education" style="background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Education &amp; Recognition</span>
+      <h2>Training record</h2>
+    </div>
+    <div class="grid-2">
+      <div>
+        <div class="edu-item">
+          <div class="edu-degree">Master of Science in Health Informatics &mdash; Bioinformatics Track</div>
+          <div class="edu-school">University of the Philippines Manila</div>
+          <div class="edu-meta">2024 &ndash; PRESENT</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">Bachelor of Science in Biotechnology &mdash; Industrial Biotechnology</div>
+          <div class="edu-school">Visayas State University</div>
+          <div class="edu-meta">2015 &ndash; 2019 &middot; CUM LAUDE</div>
+        </div>
+      </div>
+      <div>
+        <ul class="honor-list">
+          <li>
+            <span class="honor-mark">01</span>
+            <span><span class="honor-title">DOST-ASTHRDP Scholarship</span> &mdash; MS in Health Informatics (Bioinformatics Track), University of the Philippines Manila, 2024&ndash;present</span>
+          </li>
+          <li>
+            <span class="honor-mark">02</span>
+            <span><span class="honor-title">Cum Laude</span> &mdash; BS Biotechnology, Visayas State University, 2019</span>
+          </li>
+          <li>
+            <span class="honor-mark">03</span>
+            <span><span class="honor-title">DA-Biotech Scholarship</span> &mdash; BS in Biotechnology, Visayas State University, 2015&ndash;2019</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Publications</span>
+      <h2>In print</h2>
+    </div>
+    <div class="pub-list prose">
+      <div class="pub-item">
+        <span class="pub-num">[1]</span>&ldquo;<span class="pub-title">Variant rs9644568 in the intergenic region downstream of the LPL gene is associated with high LDL cholesterol levels among Filipinos</span>.&rdquo; Preprint, medRxiv, 2024. <a href="https://doi.org/10.1101/2024.05.12.24307253" target="_blank" rel="noopener">doi.org/10.1101/2024.05.12.24307253</a>
+      </div>
+      <div class="pub-item">
+        <span class="pub-num">[2]</span>&ldquo;<span class="pub-title">Isolation of culturable bacteria from soil samples of Molawin creek in the Mount Makiling Forest Reserve using oligotrophic media</span>.&rdquo; Presented at the 51st Annual Convention and Scientific Meeting of the Philippine Society of Microbiology, Inc., 20 July 2022 (Virtual).
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-row">
+      <h2>Open to research &amp; <em>bioinformatics</em> roles.</h2>
+      <div class="footer-meta">Pasig, Metro Manila, PH<br>Available for relocation &amp; remote work</div>
+    </div>
+    <div class="footer-row">
+      <div class="footer-contacts">
+        <a href="mailto:crlmfrnndz@gmail.com">crlmfrnndz@gmail.com</a>
+        <a href="tel:+639266230694">+63 926 623 0694</a>
+        <a href="https://linkedin.com/in/crlmfrnndz1999" target="_blank" rel="noopener">linkedin.com/in/crlmfrnndz1999</a>
+      </div>
+      <div class="footer-meta">&copy; 2026 Carla Mae O. Fernandez</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('theme-toggle');
+    var root = document.documentElement;
+
+    function isDark() {
+      if (root.dataset.theme === 'dark') return true;
+      if (root.dataset.theme === 'light') return false;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    function setLabel() {
+      var dark = isDark();
+      toggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+    function apply(next) {
+      root.dataset.theme = next;
+      try { localStorage.setItem('cmf-theme', next); } catch (e) {}
+      setLabel();
+    }
+
+    setLabel();
+
+    toggle.addEventListener('click', function (e) {
+      var next = isDark() ? 'light' : 'dark';
+      var x = e.clientX, y = e.clientY;
+      var endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!document.startViewTransition || reduceMotion) {
+        apply(next);
+        return;
+      }
+
+      var transition = document.startViewTransition(function () { apply(next); });
+      transition.ready.then(function () {
+        root.animate(
+          {
+            clipPath: [
+              'circle(0px at ' + x + 'px ' + y + 'px)',
+              'circle(' + endRadius + 'px at ' + x + 'px ' + y + 'px)'
+            ]
+          },
+          {
+            duration: 650,
+            easing: 'cubic-bezier(0.65, 0, 0.35, 1)',
+            pseudoElement: '::view-transition-new(root)'
+          }
+        );
+      });
+    });
+  })();
+</script>
+</body>
+</html>
