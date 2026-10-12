@@ -68,6 +68,7 @@
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
   ::view-transition-old(root) { z-index: 1; }
   ::view-transition-new(root) { z-index: 2; }
+  html.theme-switching *, html.theme-switching *::before, html.theme-switching *::after { transition: none !important; }
 
   body {
     margin: 0;
@@ -122,7 +123,6 @@
   .brandmark span { color: var(--teal); }
   .navlinks {
     display: flex;
-    justify-content: flex-end;
     gap: clamp(10px, 2vw, 24px);
     overflow-x: auto;
     scrollbar-width: none;
@@ -131,6 +131,7 @@
     flex: 1 1 auto;
   }
   .navlinks::-webkit-scrollbar { display: none; }
+  .navlinks a:first-child { margin-left: auto; }
   .navlinks a {
     text-decoration: none;
     color: var(--ink-soft);
@@ -223,7 +224,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 62% 18%;
+    object-position: 50% 24%;
   }
   .hero-photo::after {
     content: "";
@@ -314,16 +315,24 @@
   hr.rule { border: none; border-top: 1px solid var(--line); margin: 0; }
 
   /* ---------- Skills ---------- */
-  .skill-group { padding-block: 20px; border-top: 1px solid var(--line); }
-  .skill-group:first-of-type { border-top: none; }
-  .skill-group-head {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.76rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink);
-    margin-bottom: 12px;
+  .skill-row {
+    display: grid;
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+    gap: 10px clamp(20px, 4vw, 48px);
+    padding-block: 18px;
+    border-top: 1px solid var(--line);
   }
+  .section-head + .skill-row { border-top: none; padding-top: 0; }
+  .skill-name { font-family: 'Spectral', Georgia, serif; font-weight: 600; font-size: 1.02rem; line-height: 1.3; }
+  .skill-level {
+    margin-top: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  @media (max-width: 720px) { .skill-row { grid-template-columns: 1fr; } }
   .tag-cluster { display: flex; flex-wrap: wrap; gap: 8px; }
   .tag {
     font-size: 0.82rem;
@@ -373,6 +382,26 @@
   .tl-place { color: var(--ink-faint); font-size: 0.82rem; margin-top: 1px; }
   .tl-list { margin: 12px 0 0; padding-left: 18px; color: var(--ink-soft); font-size: 0.93rem; line-height: 1.65; }
   .tl-list li + li { margin-top: 6px; }
+
+  .subsection { margin-top: clamp(44px, 7vw, 72px); }
+  .subsection .eyebrow { display: block; margin-bottom: 8px; }
+  .sub-title { font-size: clamp(1.25rem, 2.2vw, 1.5rem); font-weight: 600; margin-bottom: clamp(22px, 3.5vw, 32px); }
+
+  /* ---------- Projects ---------- */
+  .project {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 8px clamp(20px, 4vw, 48px);
+    padding-block: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .project:first-of-type { border-top: none; padding-top: 0; }
+  .project:last-of-type { padding-bottom: 0; }
+  .project-year { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-faint); padding-top: 0.45rem; white-space: nowrap; }
+  .project-title { font-size: 1.25rem; font-weight: 600; line-height: 1.25; }
+  .project-meta { color: var(--teal); font-size: 0.88rem; margin-top: 5px; font-weight: 500; }
+  .project-role { color: var(--ink-faint); font-size: 0.82rem; margin-top: 2px; }
+  @media (max-width: 720px) { .project { grid-template-columns: 1fr; } .project-year { padding-top: 0; } }
 
   /* ---------- Education / Honors ---------- */
   .grid-2 {
@@ -467,6 +496,7 @@
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
       <a href="#education">Education</a>
       <a href="#publications">Publications</a>
       <a href="#contact">Contact</a>
@@ -483,7 +513,7 @@
     <div class="hero-text">
       <span class="eyebrow">Bioinformatics &middot; Molecular Research</span>
       <h1>Carla Mae<br><em>Fernandez</em></h1>
-      <p class="role">Biotechnology researcher turning five years of bench work &mdash; PCR, ELISA, biobanking &mdash; into computational biology: differential gene expression, biomarker discovery, and statistical modeling in R.</p>
+      <p class="role">Biotechnology researcher turning 5+ years of bench work &mdash; PCR, ELISA, biobanking &mdash; into computational biology: differential gene expression, biomarker discovery, and statistical modeling in R.</p>
       <div class="contact-row">
         <a class="chip" href="mailto:crlmfrnndz@gmail.com">
           <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
@@ -505,7 +535,7 @@
     </div>
     <div class="hero-photo-wrap">
       <div class="hero-photo">
-        <img src="assets/cmf.jpg" alt="Portrait of Carla Mae Fernandez" />
+        <img src="assets/carla-portrait.jpg" alt="Portrait of Carla Mae Fernandez" width="900" height="900" />
       </div>
       <div class="photo-tag">SAMPLE ID: CMF&ndash;1999</div>
     </div>
@@ -528,8 +558,8 @@
       <h2>From the bench to the console</h2>
     </div>
     <div class="lede prose">
-      <p>Biology and biotechnology research professional with 5+ years of laboratory and molecular diagnostics experience, now pairing that bench background with hands-on training in R/Bioconductor-based transcriptomic data analysis. Currently completing an MS in Health Informatics (Bioinformatics Track) at the University of the Philippines Manila as a DOST-ASTHRDP scholar.</p>
-      <p>Brings wet-lab rigor &mdash; biobanking, PCR, ELISA, microbial identification &mdash; together with growing computational skills in differential gene expression analysis, biomarker discovery, and statistical modeling in R and Python, plus practiced scientific writing across research proposals, manuscripts, and technical documentation.</p>
+      <p>Biology and biotechnology researcher with 5+ years of laboratory and molecular diagnostics experience, now pairing that bench background with training in R/Bioconductor-based transcriptomic data analysis. Currently completing an MS in Health Informatics (Bioinformatics Track) at the University of the Philippines Manila as a DOST-ASTHRDP scholar.</p>
+      <p>Brings wet-lab rigor &mdash; biobanking, PCR, ELISA, microbial identification &mdash; together with growing computational skills in differential gene expression analysis, biomarker discovery, and machine learning in R, plus health-informatics project work in requirements specification, UI/UX, and health information policy.</p>
     </div>
   </div>
 </section>
@@ -537,48 +567,81 @@
 <section id="skills" style="background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">Technical Skills</span>
+      <span class="eyebrow">Technical Skills &amp; Experiences</span>
       <h2>Instruments &amp; methods</h2>
     </div>
 
-    <div class="skill-group">
-      <div class="skill-group-head">Bioinformatics &amp; Data Analysis</div>
+    <div class="skill-row">
+      <div><div class="skill-name">Transcriptomics in R/Bioconductor</div><div class="skill-level">Intermediate</div></div>
       <div class="tag-cluster">
-        <span class="tag">R</span><span class="tag">R/Bioconductor</span><span class="tag">Python</span>
-        <span class="tag">Transcriptomic data analysis</span><span class="tag">Microarray preprocessing</span>
-        <span class="tag">Normalization &amp; QA</span><span class="tag">Differential gene expression</span>
-        <span class="tag">Biomarker discovery</span><span class="tag">Machine learning (regression, classification)</span>
-        <span class="tag">Statistical analysis</span><span class="tag">Data visualization</span>
+        <span class="tag">Microarray preprocessing</span><span class="tag">Normalization</span><span class="tag">Quality assessment</span>
+        <span class="tag">Differential gene expression</span><span class="tag">Biomarker discovery</span><span class="tag">Biological interpretation</span>
+      </div>
+    </div>
+
+    <div class="skill-row">
+      <div><div class="skill-name">R</div><div class="skill-level">Intermediate</div></div>
+      <div class="tag-cluster">
+        <span class="tag">Data manipulation</span><span class="tag">Statistical analysis</span><span class="tag">Visualization</span>
+        <span class="tag">Machine learning (regression, classification)</span>
+      </div>
+    </div>
+
+    <div class="skill-row">
+      <div><div class="skill-name">Python</div><div class="skill-level">Basic</div></div>
+      <div class="tag-cluster">
+        <span class="tag">Data manipulation</span><span class="tag">Analysis</span><span class="tag">Scripting</span>
+      </div>
+    </div>
+
+    <div class="skill-row">
+      <div><div class="skill-name">Linux &amp; HPC</div><div class="skill-level">Intermediate</div></div>
+      <div class="tag-cluster">
+        <span class="tag">Linux command-line</span><span class="tag">High-performance computing</span><span class="tag">Bioinformatics workflows</span>
+      </div>
+    </div>
+
+    <div class="skill-row">
+      <div><div class="skill-name">Statistics &amp; visualization software</div><div class="skill-level">Intermediate</div></div>
+      <div class="tag-cluster">
         <span class="tag">STATA</span><span class="tag">GraphPad Prism</span>
       </div>
     </div>
 
-    <div class="skill-group">
-      <div class="skill-group-head">Bioinformatics Databases &amp; Tools</div>
+    <div class="skill-row">
+      <div><div class="skill-name">Bioinformatics databases &amp; software</div><div class="skill-level">Intermediate</div></div>
       <div class="tag-cluster">
         <span class="tag">GEO</span><span class="tag">Ensembl Genome Browser</span><span class="tag">Bioconductor packages</span>
         <span class="tag">GSEA</span><span class="tag">DAVID</span><span class="tag">PLINK</span>
-        <span class="tag">Gephi</span><span class="tag">Cytoscape</span><span class="tag">Biological network analysis</span>
-        <span class="tag">Linux command-line</span><span class="tag">HPC</span>
       </div>
     </div>
 
-    <div class="skill-group">
-      <div class="skill-group-head">Laboratory &amp; Molecular Biology</div>
+    <div class="skill-row">
+      <div><div class="skill-name">Biological network analysis</div><div class="skill-level">Intermediate</div></div>
       <div class="tag-cluster">
-        <span class="tag">DNA/RNA purification</span><span class="tag">PCR</span><span class="tag">ELISA</span>
-        <span class="tag">Microbial culturing &amp; staining</span><span class="tag">Microscopy</span>
-        <span class="tag">Strain identification</span><span class="tag">Culture preservation</span>
-        <span class="tag">Biobanking</span><span class="tag">Biospecimen accessioning</span><span class="tag">Inventory management</span>
+        <span class="tag">Gephi</span><span class="tag">Cytoscape</span>
       </div>
     </div>
 
-    <div class="skill-group">
-      <div class="skill-group-head">Other</div>
+    <div class="skill-row">
+      <div><div class="skill-name">Molecular biology &amp; immunology</div><div class="skill-level">Basic to advanced</div></div>
       <div class="tag-cluster">
-        <span class="tag">Microsoft Office Suite</span><span class="tag">Scientific writing</span>
-        <span class="tag">Presentation design</span><span class="tag">Research proposals &amp; manuscripts</span>
-        <span class="tag">Technical documentation</span>
+        <span class="tag">DNA/RNA purification</span><span class="tag">Conventional PCR</span><span class="tag">ELISA</span>
+      </div>
+    </div>
+
+    <div class="skill-row">
+      <div><div class="skill-name">Microbiology</div><div class="skill-level">Intermediate to advanced</div></div>
+      <div class="tag-cluster">
+        <span class="tag">Microbial culturing</span><span class="tag">Staining</span><span class="tag">Microscopy</span>
+        <span class="tag">Identification</span><span class="tag">Culture preservation</span>
+      </div>
+    </div>
+
+    <div class="skill-row">
+      <div><div class="skill-name">Microsoft Office Suite</div><div class="skill-level">Advanced</div></div>
+      <div class="tag-cluster">
+        <span class="tag">Scientific writing</span><span class="tag">Presentation design</span><span class="tag">Spreadsheet-based visualization &amp; analysis</span>
       </div>
     </div>
   </div>
@@ -595,43 +658,18 @@
       <div class="tl-item">
         <span class="tl-dot"></span>
         <div class="tl-head">
-          <span class="tl-role">International Exchange Participant &mdash; IntMedEdu HAI NOW Exchange Programme</span>
-          <span class="tl-date">MAR 2026</span>
-        </div>
-        <div class="tl-org">Hainan International Medical Center, Shanghai Jiao Tong University School of Medicine</div>
-        <div class="tl-place">Hainan, China</div>
-        <ul class="tl-list">
-          <li>Selected for a competitive international medical education and research exchange program, engaging with faculty and researchers from multiple institutions by completing structured academic sessions on artificial intelligence, digital health, biomedical research, and precision medicine.</li>
-        </ul>
-      </div>
-
-      <div class="tl-item">
-        <span class="tl-dot"></span>
-        <div class="tl-head">
-          <span class="tl-role">Resource Speaker &mdash; &ldquo;Data in Motion: Exploring Analysis and Visualization with R&rdquo;</span>
-          <span class="tl-date">NOV 2025</span>
-        </div>
-        <div class="tl-org">Workshop, Mindanao State University &ndash; General Santos City</div>
-        <div class="tl-place">Delivered via Zoom</div>
-        <ul class="tl-list">
-          <li>Delivered a hands-on R workshop to remote participants by designing and leading live sessions on data manipulation, exploratory data analysis, and data visualization.</li>
-        </ul>
-      </div>
-
-      <div class="tl-item">
-        <span class="tl-dot"></span>
-        <div class="tl-head">
           <span class="tl-role">University Research Associate II / Team Captain</span>
-          <span class="tl-date">2022 &ndash; 2023</span>
+          <span class="tl-date">MAR 2022 &ndash; NOV 2023</span>
         </div>
-        <div class="tl-org">Molecular Research and Diagnostic Unit, Institute of Human Genetics, National Institutes of Health</div>
-        <div class="tl-place">University of the Philippines Manila</div>
+        <div class="tl-org">Molecular Research and Diagnostic Unit, Research Arm &mdash; Institute of Human Genetics, National Institutes of Health</div>
+        <div class="tl-place">University of the Philippines Manila, Ermita, Manila</div>
         <ul class="tl-list">
-          <li>Led the Research Arm of the Molecular Research and Diagnostic Unit as Team Captain, coordinating laboratory processing and data analysis by organizing daily research operations and team workflows.</li>
-          <li>Managed end-to-end biobanking operations, keeping the collection fully traceable, by standardizing accessioning, inventory management, storage, and retrieval procedures.</li>
-          <li>Authored and contributed to research proposals and manuscripts, translating experimental data and findings into funding- and publication-ready documents.</li>
-          <li>Built and maintained the unit&rsquo;s system for recording, safekeeping, and archiving documentation across all significant laboratory activities.</li>
-          <li>Concurrently facilitated the Philippine Science High School Science Immersion Program (Jul&ndash;Aug 2023), guiding senior high school students through laboratory workflows and biomedical research exposure.</li>
+          <li>Conducted research activities (e.g., laboratory processing, data analysis) relevant to the Molecular Research and Diagnostic Unit, Research Arm.</li>
+          <li>Performed administrative duties related to the Molecular Research and Diagnostic Unit, Research Arm.</li>
+          <li>Prepared research proposals and manuscripts.</li>
+          <li>Provided an organized means for the recording, safekeeping and archiving of documents related to all significant laboratory activities.</li>
+          <li>Managed biobanking operations, including biospecimen accessioning, inventory management, storage, retrieval, and documentation.</li>
+          <li>Performed additional duties related to the smooth and efficient operation and management of the laboratory.</li>
         </ul>
       </div>
 
@@ -639,22 +677,120 @@
         <span class="tl-dot"></span>
         <div class="tl-head">
           <span class="tl-role">University Research Associate I</span>
-          <span class="tl-date">2019 &ndash; 2021</span>
+          <span class="tl-date">AUG 2019 &ndash; JAN 2021</span>
         </div>
         <div class="tl-org">National Institute of Molecular Biology and Biotechnology (BIOTECH)</div>
-        <div class="tl-place">University of the Philippines Los Ba&ntilde;os</div>
+        <div class="tl-place">University of the Philippines Los Ba&ntilde;os, Los Ba&ntilde;os, Laguna</div>
         <ul class="tl-list">
-          <li>Isolated, purified, preserved, and identified bacterial and yeast strains from soil and aquatic samples, contributing directly to the Philippine National Collection of Microorganisms (PNCM).</li>
-          <li>Performed molecular and phenotypic identification across bacterial and yeast isolates, combining culture-based and molecular diagnostic techniques for accurate taxonomic classification.</li>
-          <li>Supported culture collection operations and service provision at PNCM, BIOTECH, maintaining preserved microbial stocks and reference documentation.</li>
-          <li>Contributed to scientific reports and technical documentation by compiling experimental data and methodology summaries for internal and collaborative research use.</li>
+          <li>Isolated, purified, preserved, and identified bacteria and yeasts from soil and aquatic environments.</li>
+          <li>Performed molecular and phenotypic identification of bacterial and yeast isolates.</li>
+          <li>Contributed to the preparation of scientific reports and documentation.</li>
+          <li>Assisted in some culture collection work and provision of services at the Philippine National Collection of Microorganisms (PNCM), BIOTECH, UP Los Ba&ntilde;os.</li>
         </ul>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <span class="eyebrow">Academic &amp; Professional Engagements</span>
+      <h3 class="sub-title">Teaching, exchange, and outreach</h3>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-dot"></span>
+          <div class="tl-head">
+            <span class="tl-role">International Exchange Participant</span>
+            <span class="tl-date">MAR 16 &ndash; 27, 2026</span>
+          </div>
+          <div class="tl-org">IntMedEdu HAI NOW Exchange Programme</div>
+          <div class="tl-place">Hainan International Medical Center, Shanghai Jiao Tong University School of Medicine, Hainan, China</div>
+          <ul class="tl-list">
+            <li>Participated in an international medical education and research exchange program.</li>
+            <li>Attended lectures and academic sessions on artificial intelligence (AI), digital health, biomedical research, and precision medicine.</li>
+            <li>Engaged in cross-cultural academic exchange with participants and faculty from multiple institutions.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <span class="tl-dot"></span>
+          <div class="tl-head">
+            <span class="tl-role">Resource Speaker</span>
+            <span class="tl-date">NOV 15 &ndash; 16, 2025</span>
+          </div>
+          <div class="tl-org">Data in Motion: Exploring Analysis and Visualization with R</div>
+          <div class="tl-place">Workshop, Mindanao State University, General Santos City (via Zoom)</div>
+          <ul class="tl-list">
+            <li>Delivered hands-on sessions on data manipulation, exploratory data analysis, and data visualization using R.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <span class="tl-dot"></span>
+          <div class="tl-head">
+            <span class="tl-role">Science Immersion Program Facilitator / Resource Person</span>
+            <span class="tl-date">JUL &ndash; AUG 2023</span>
+          </div>
+          <div class="tl-org">Philippine Science High School (PSHS) Science Immersion Program</div>
+          <div class="tl-place">National Institutes of Health, Institute of Human Genetics, University of the Philippines Manila</div>
+          <ul class="tl-list">
+            <li>Assisted in facilitating laboratory and research-oriented activities for senior high school students.</li>
+            <li>Provided guidance on basic laboratory workflows and exposure to biomedical research environments.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="education" style="background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+<section id="projects" style="background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Summary of Relevant Projects</span>
+      <h2>Health informatics, in practice</h2>
+    </div>
+
+    <article class="project">
+      <div class="project-year">2026</div>
+      <div>
+        <h3 class="project-title">eDietPlan: Web-based Diet Prescription and Food Exchange Distribution System</h3>
+        <div class="project-meta">MI 227 Clinical and Laboratory Information Systems, University of the Philippines Manila</div>
+        <div class="project-role">Team project &middot; Role: UI/UX Designer and user testing</div>
+        <ul class="tl-list">
+          <li>Created the website theme and initial page mockups for a clinical information system used by Registered Nutritionist-Dietitians.</li>
+          <li>Co-wrote the Software Requirements Specification, and updated the requirements and design documentation against the working prototype.</li>
+          <li>Co-developed the user acceptance testing protocol (test plan, feedback and evaluation forms).</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-year">2025 &ndash; 2026</div>
+      <div>
+        <h3 class="project-title">Health Information Policy and Systems Analyses</h3>
+        <div class="project-meta">MI 227 and HI 298, University of the Philippines Manila</div>
+        <ul class="tl-list">
+          <li>Analyzed the Rare Diseases Act of 2016 (RA 10747) for health information security gaps and recommended safeguards such as encryption, role-based access control, multi-factor authentication, and audit logs.</li>
+          <li>Critically appraised a published study on the implementation of an ICU drug-drug interaction alert system and discussed its relevance to Philippine hospitals.</li>
+          <li>Presented a seminar on privacy-preserving genomic data sharing in the Philippines under the Data Privacy Act of 2012.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-year">2024</div>
+      <div>
+        <h3 class="project-title">Biobank Information Management System (BIMS)</h3>
+        <div class="project-meta">HI 210 System Analysis and Design, University of the Philippines Manila</div>
+        <div class="project-role">Team project &middot; Role: system concept and requirements</div>
+        <ul class="tl-list">
+          <li>Conceptualized the Biobank Information Management System based on prior biobanking work experience, defining its scope, user roles (biobank manager, researcher, administrator), and core features, including sample logging, informed consent upload, sample requests, request tracking, sample search, and inventory reports.</li>
+          <li>Co-authored all project documentation, including the IEEE-format Software Requirements Specification, and worked with BS Computer Science students who developed and deployed the system as a web application.</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="education">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Education &amp; Recognition</span>
@@ -681,7 +817,7 @@
           </li>
           <li>
             <span class="honor-mark">02</span>
-            <span><span class="honor-title">Cum Laude</span> &mdash; BS Biotechnology, Visayas State University, 2019</span>
+            <span><span class="honor-title">Cum Laude</span> &mdash; BS Biotechnology (Major in Industrial Biotechnology), 2019</span>
           </li>
           <li>
             <span class="honor-mark">03</span>
@@ -693,7 +829,7 @@
   </div>
 </section>
 
-<section id="publications">
+<section id="publications" style="background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Publications</span>
@@ -704,7 +840,10 @@
         <span class="pub-num">[1]</span>&ldquo;<span class="pub-title">Variant rs9644568 in the intergenic region downstream of the LPL gene is associated with high LDL cholesterol levels among Filipinos</span>.&rdquo; Preprint, medRxiv, 2024. <a href="https://doi.org/10.1101/2024.05.12.24307253" target="_blank" rel="noopener">doi.org/10.1101/2024.05.12.24307253</a>
       </div>
       <div class="pub-item">
-        <span class="pub-num">[2]</span>&ldquo;<span class="pub-title">Isolation of culturable bacteria from soil samples of Molawin creek in the Mount Makiling Forest Reserve using oligotrophic media</span>.&rdquo; Presented at the 51st Annual Convention and Scientific Meeting of the Philippine Society of Microbiology, Inc., 20 July 2022 (Virtual).
+        <span class="pub-num">[2]</span>&ldquo;<span class="pub-title">Isolation of culturable bacteria from soil samples of Molawin creek in the Mount Makiling Forest Reserve using oligotrophic media</span>.&rdquo; Presented at the 51st Annual Convention and Scientific Meeting of the Philippines Society of Microbiology, Inc., 20 July 2022 (Virtual).
+      </div>
+      <div class="pub-item">
+        <span class="pub-num">[3]</span>&ldquo;<span class="pub-title">Biodegradation of used engine oil by <span style="font-style:normal">Saccharomyces</span> spp. isolated from coconut wine (tub&acirc;)</span>.&rdquo; B.S. Thesis, 2018&ndash;2019.
       </div>
     </div>
   </div>
@@ -714,7 +853,7 @@
   <div class="wrap">
     <div class="footer-row">
       <h2>Open to research &amp; <em>bioinformatics</em> roles.</h2>
-      <div class="footer-meta">Pasig, Metro Manila, PH<br>Available for relocation &amp; remote work</div>
+      <div class="footer-meta">Pasig, Metro Manila, PH<br>Available for remote work</div>
     </div>
     <div class="footer-row">
       <div class="footer-contacts">
@@ -753,15 +892,30 @@
     toggle.addEventListener('click', function (e) {
       var next = isDark() ? 'light' : 'dark';
       var x = e.clientX, y = e.clientY;
+      if (!x && !y) {
+        var box = toggle.getBoundingClientRect();
+        x = box.left + box.width / 2;
+        y = box.top + box.height / 2;
+      }
       var endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      // Hundreds of per-element color transitions would otherwise run on top of the reveal.
+      root.classList.add('theme-switching');
+      var release = function () { root.classList.remove('theme-switching'); };
+
       if (!document.startViewTransition || reduceMotion) {
         apply(next);
+        void root.offsetWidth;
+        release();
         return;
       }
 
-      var transition = document.startViewTransition(function () { apply(next); });
+      var transition = document.startViewTransition(function () {
+        apply(next);
+        void root.offsetWidth;
+      });
+      transition.finished.then(release, release);
       transition.ready.then(function () {
         root.animate(
           {
@@ -776,7 +930,7 @@
             pseudoElement: '::view-transition-new(root)'
           }
         );
-      });
+      }, function () {});
     });
   })();
 </script>
